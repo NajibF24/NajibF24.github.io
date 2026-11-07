@@ -1,6 +1,6 @@
 // All text and data shown on the site lives here. Edit this file to change content.
 
-export const LINKEDIN_URL: string = ''; // e.g. 'https://www.linkedin.com/in/your-handle' — empty hides the link
+export const LINKEDIN_URL: string = 'https://www.linkedin.com/in/muhammadnajibfauzan/'; // empty hides the link
 export const GITHUB_URL = 'https://github.com/NajibF24';
 export const EMAIL = 'najibfauzan88@gmail.com';
 // Optional portrait: put a file in /public (e.g. /public/photo.jpg) and set '/photo.jpg'. Empty = no photo.
