@@ -516,6 +516,38 @@ main {
   fill: var(--amber);
 }
 
+.dg-tool-dot {
+  fill: rgba(95, 227, 255, 0.55);
+}
+
+.dg-layer-title {
+  fill: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.dg-feed-line {
+  fill: none;
+  stroke: rgba(150, 180, 210, 0.22);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+  transition: stroke 0.2s;
+}
+
+.dg-feed-dot {
+  fill: rgba(150, 180, 210, 0.35);
+  transition: fill 0.2s;
+}
+
+.dg-feed-active .dg-feed-line {
+  stroke: rgba(95, 227, 255, 0.7);
+  stroke-dasharray: none;
+}
+
+.dg-feed-active .dg-feed-dot {
+  fill: var(--cyan);
+}
+
 .pk {
   fill: var(--cyan);
 }
@@ -551,6 +583,10 @@ main {
   font-weight: 700;
   font-size: 18px;
   fill: var(--text);
+}
+
+.dg-name-sm {
+  font-size: 16px;
 }
 
 .dg-small {
@@ -608,6 +644,19 @@ main {
   font-size: 0.95rem;
 }
 
+.diagram-list em {
+  font-style: normal;
+  font-size: 0.92rem;
+  color: rgba(95, 227, 255, 0.85);
+}
+
+.diagram-list-title {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding-top: 28px;
+  border-top: 0;
+}
+
 .diagram-detail {
   margin-top: 28px;
   padding: 24px 28px;
@@ -630,6 +679,19 @@ main {
 .diagram-detail h3 svg {
   color: var(--cyan);
   flex: none;
+}
+
+.diagram-detail-tools {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 8px 0 0;
+  max-width: 18ch;
+}
+
+.diagram-detail .dg-facts li::before {
+  background: rgba(95, 227, 255, 0.6);
+  transform: none;
+  border-radius: 50%;
 }
 
 .diagram-detail p {

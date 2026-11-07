@@ -48,7 +48,9 @@ export const about = {
   ],
 };
 
-// Platform diagram: stages flow left to right; gates are the checks a change must pass.
+// Platform diagram: stages flow left to right; `tools` names what runs the stage, `gates`
+// are the security checks a change must pass (amber). `layer` is the second row: what
+// provisions and operates the pipeline; `feeds` lists the stage ids each item connects to.
 export const platform = {
   title: 'The platform I built',
   intro:
@@ -58,6 +60,7 @@ export const platform = {
       id: 'git',
       name: 'GitLab',
       icon: 'gitlab',
+      tools: '49 repos, one CI template',
       summary: 'Projects, protected branches and CI variables created by Terraform from one catalog file.',
       gates: ['Gitleaks secret scanning', 'Protected branches'],
     },
@@ -65,6 +68,7 @@ export const platform = {
       id: 'ci',
       name: 'CI pipeline',
       icon: 'docker',
+      tools: 'Gitleaks, Trivy, Sonar, ZAP',
       summary: 'One template (gys-pipeline) used by 49 repositories. It fails only on what matters.',
       gates: ['Trivy filesystem scan', 'SonarQube quality gate', 'Build pinned by digest'],
     },
@@ -72,6 +76,7 @@ export const platform = {
       id: 'harbor',
       name: 'Harbor',
       icon: 'harbor',
+      tools: 'Scan-on-push, ECR mirror',
       summary: 'Scan-on-push, images pinned by digest, weekly base-image rebuilds with 10-minute auto-rollback.',
       gates: ['Trivy image scan', 'Critical CVE policy'],
     },
@@ -79,6 +84,7 @@ export const platform = {
       id: 'argocd',
       name: 'ArgoCD',
       icon: 'argo',
+      tools: 'ApplicationSets, 487 apps',
       summary: 'ApplicationSets for every environment, zero spec drift, one shared Helm chart.',
       gates: ['OWASP ZAP DAST', 'Smoke-test gate', 'Production approval'],
     },
@@ -86,10 +92,65 @@ export const platform = {
       id: 'clusters',
       name: 'Kubernetes',
       icon: 'kubernetes',
+      tools: 'RKE2 on-prem, EKS for DR',
       summary: 'Dev, staging and production on RKE2, pilot-light DR on AWS EKS. Secrets arrive through External Secrets from OpenBao.',
       gates: ['OpenBao secrets', 'Probes, HPA, PDB', 'Encrypted etcd backups'],
     },
   ],
+  layer: {
+    title: 'Provisioned and operated by',
+    items: [
+      {
+        id: 'terraform',
+        name: 'Terraform',
+        icon: 'terraform',
+        feeds: ['git', 'harbor', 'argocd'],
+        summary:
+          'gys-platform: one catalog file becomes the GitLab project, Harbor project, SonarQube project, CI variables, PostgreSQL database, OpenBao secrets, NFS share, Helm values and ArgoCD config.',
+        points: ['One catalog file per app', 'GitLab, Harbor, SonarQube', 'PostgreSQL, OpenBao, NFS'],
+      },
+      {
+        id: 'clusters-infra',
+        name: 'Rancher / EKS',
+        icon: 'rancher',
+        feeds: ['clusters'],
+        summary: 'Four on-prem RKE2 clusters managed with Rancher (dev, staging, production, ArgoCD) and a pilot-light AWS EKS cluster for DR with Harbor to ECR replication.',
+        points: ['4 RKE2 clusters on-prem', 'EKS pilot-light DR', 'Harbor to ECR replication'],
+      },
+      {
+        id: 'secrets',
+        name: 'OpenBao',
+        icon: 'openbao',
+        feeds: ['clusters'],
+        summary: 'OpenBao on Raft with LDAPS login, audit log and Kubernetes auth per cluster; External Secrets Operator delivers secrets into namespaces. Nightly encrypted snapshots with tested restore.',
+        points: ['External Secrets Operator', 'Raft, LDAPS, audit log', 'Nightly snapshots, restores'],
+      },
+      {
+        id: 'observability',
+        name: 'Observability',
+        icon: 'elastic',
+        feeds: ['clusters'],
+        summary: 'Elastic SIEM with 85 detection rules and Shuffle SOAR triage; VictoriaLogs for application logs, Prometheus and Grafana for metrics, Fluent Bit shipping from every cluster.',
+        points: ['Elastic SIEM, Shuffle SOAR', 'VictoriaLogs, Fluent Bit', 'Prometheus, Grafana'],
+      },
+      {
+        id: 'backup',
+        name: 'Backup & DR',
+        icon: 'etcd',
+        feeds: ['clusters'],
+        summary: 'Encrypted etcd and secret snapshots, pgBackRest plus daily pg_dump for PostgreSQL, SQL Agent jobs for SQL Server, all landing on a QNAP NAS; restores proven in DR drills.',
+        points: ['Encrypted etcd snapshots', 'pgBackRest + pg_dump', 'QNAP NAS, DR drills'],
+      },
+      {
+        id: 'secdash',
+        name: 'secdash',
+        icon: 'whatsapp',
+        feeds: ['ci', 'argocd'],
+        summary: 'Security dashboard: production approvals through a WhatsApp bot, Trivy, ZAP and SonarQube findings per app, and the dependency-CVE bot that opens fix MRs and rebuilds base images.',
+        points: ['Approvals via WhatsApp bot', 'Trivy, ZAP, Sonar per app', 'Dependency-CVE bot'],
+      },
+    ],
+  },
   clusters: [
     { name: 'dev', apps: 148 },
     { name: 'staging', apps: 129 },
