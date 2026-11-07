@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { platform } from '../content';
+import { brandFor, brands, type BrandName } from '../lib/brands';
+import BrandIcon from './BrandIcon';
 
 const BOX_W = 140;
 const BOX_H = 70;
@@ -82,7 +84,10 @@ export default function PlatformDiagram() {
               aria-label={s.name}
             >
               <rect x={x} y={BOX_Y} width={BOX_W} height={BOX_H} rx={4} className="dg-box" />
-              <text x={x + 14} y={BOX_Y + 42} className="dg-name">
+              {brands[s.icon as BrandName] && (
+                <path d={brands[s.icon as BrandName].path} className="dg-icon" transform={`translate(${x + 14}, ${BOX_Y + 14}) scale(0.8)`} />
+              )}
+              <text x={x + 14} y={BOX_Y + 56} className="dg-name">
                 {s.name}
               </text>
               {s.gates.map((g, gi) => (
@@ -102,7 +107,10 @@ export default function PlatformDiagram() {
       <ol className="diagram-list">
         {platform.stages.map((s) => (
           <li key={s.id}>
-            <strong>{s.name}</strong>
+            <strong>
+              <BrandIcon name={s.icon} size={16} />
+              {s.name}
+            </strong>
             <span>{s.gates.join(', ')}</span>
           </li>
         ))}
@@ -113,11 +121,17 @@ export default function PlatformDiagram() {
       </ol>
 
       <div className="diagram-detail" aria-live="polite">
-        <h3>{current.name}</h3>
+        <h3>
+          <BrandIcon name={current.icon} size={20} />
+          {current.name}
+        </h3>
         <p>{current.summary}</p>
         <ul>
           {current.gates.map((g) => (
-            <li key={g}>{g}</li>
+            <li key={g}>
+              <BrandIcon name={brandFor(g)} size={14} />
+              {g}
+            </li>
           ))}
         </ul>
       </div>

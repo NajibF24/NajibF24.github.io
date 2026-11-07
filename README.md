@@ -4,7 +4,7 @@ Personal site for a DevSecOps / Platform engineer: a dark, scroll-driven page wi
 3D node-network scene (a living cluster with packets moving along its edges), an
 animated pipeline diagram, and sections for experience, projects, skills and contact.
 
-Stack: Vite 5, React 18, TypeScript, three.js + @react-three/fiber, Framer Motion.
+Stack: Vite 5, React 18, TypeScript, three.js + @react-three/fiber, Framer Motion, simple-icons.
 No backend, no tracking.
 
 ## Run locally
@@ -27,6 +27,10 @@ Two values you will want to fill in:
 - `LINKEDIN_URL` — your LinkedIn profile. Empty hides the link in Contact.
 - `PHOTO_URL` — optional portrait. Put the image in `public/` (for example
   `public/photo.jpg`) and set `PHOTO_URL = '/photo.jpg'`. Empty hides the photo.
+
+Brand icons come from [simple-icons](https://simpleicons.org) (CC0). The bundled set and the
+label-to-icon keyword rules live in `src/lib/brands.ts`; the hero "stack" strip is the `stack`
+list in `src/content.ts`. Labels with no matching icon simply render without one.
 
 Colors, fonts and spacing are CSS variables at the top of `src/styles.css`.
 The 3D scene's particle budget per device class is in `src/lib/device.ts`.

@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { nav, person } from './content';
 import { detectTier, hasWebGL, prefersReducedMotion, type Tier } from './lib/device';
+import ScrollProgress from './components/ScrollProgress';
 import Hero from './sections/Hero';
 import { About, Contact, Experience, Platform, Projects, Skills } from './sections/Sections';
 
@@ -28,6 +29,7 @@ export default function App() {
         <div className="scene scene-fallback" aria-hidden="true" />
       )}
       <div className="veil" aria-hidden="true" />
+      <ScrollProgress />
 
       <nav className="nav" aria-label="Sections">
         <a href="#top" className="nav-name">

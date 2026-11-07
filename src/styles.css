@@ -13,6 +13,7 @@
   --body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
   --gutter: clamp(20px, 5vw, 72px);
   --measure: 62ch;
+  --measure-card: 44ch;
 }
 
 * {
@@ -36,7 +37,7 @@ body {
   color: var(--text);
   font-family: var(--body);
   font-size: 17px;
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -99,6 +100,18 @@ ol {
   background:
     linear-gradient(90deg, rgba(5, 8, 15, 0.82) 0%, rgba(5, 8, 15, 0.45) 40%, rgba(5, 8, 15, 0) 70%),
     radial-gradient(120% 80% at 50% 50%, transparent 55%, rgba(5, 8, 15, 0.85) 100%);
+}
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 11;
+  background: var(--cyan);
+  transform-origin: left;
+  pointer-events: none;
 }
 
 /* ---------- nav ---------- */
@@ -193,7 +206,7 @@ main {
 }
 
 .hero-tagline {
-  max-width: 44ch;
+  max-width: 48ch;
   font-size: clamp(1.05rem, 1.5vw, 1.25rem);
   color: var(--text);
   margin-bottom: 36px;
@@ -230,6 +243,53 @@ main {
 
 .btn-primary:hover {
   background: #8aecff;
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin-top: 52px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  max-width: 760px;
+}
+
+.stack li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  padding: 8px 0;
+  transition:
+    color 0.25s,
+    transform 0.25s;
+}
+
+.stack li span {
+  display: none;
+}
+
+.stack li:hover {
+  color: var(--cyan);
+  transform: scale(1.12);
+}
+
+.stack li svg {
+  display: block;
+}
+
+@media (min-width: 1200px) {
+  .stack li span {
+    display: inline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack li:hover {
+    transform: none;
+  }
 }
 
 .hero-scroll {
@@ -285,16 +345,34 @@ main {
 /* ---------- sections ---------- */
 
 .section {
+  position: relative;
   background: var(--panel);
   border-top: 1px solid var(--line);
   padding: clamp(72px, 9vw, 128px) var(--gutter);
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(150, 180, 210, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 180, 210, 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(70% 70% at 50% 40%, #000 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(70% 70% at 50% 40%, #000 20%, transparent 100%);
+}
+
+.section-inner {
+  position: relative;
 }
 
 .section-inner {
   max-width: 1180px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(220px, 340px) 1fr;
+  grid-template-columns: minmax(220px, 360px) 1fr;
   gap: clamp(32px, 6vw, 96px);
   align-items: start;
 }
@@ -305,7 +383,7 @@ main {
 }
 
 .section-side h2 {
-  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-size: clamp(2rem, 3vw, 2.5rem);
   overflow-wrap: anywhere;
   font-weight: 800;
   margin-bottom: 18px;
@@ -325,7 +403,7 @@ main {
 .section-wide .section-side {
   position: static;
   display: grid;
-  grid-template-columns: minmax(220px, 340px) 1fr;
+  grid-template-columns: minmax(220px, 360px) 1fr;
   gap: clamp(32px, 6vw, 96px);
   align-items: end;
 }
@@ -355,13 +433,18 @@ main {
   align-items: start;
 }
 
+.about-text {
+  max-width: var(--measure);
+}
+
 .about-text p {
   font-size: 1.08rem;
 }
 
 .about-text p:first-of-type {
   font-size: 1.32rem;
-  line-height: 1.45;
+  line-height: 1.4;
+  max-width: 40ch;
   font-weight: 500;
 }
 
@@ -476,6 +559,16 @@ main {
   fill: var(--muted);
 }
 
+.dg-icon {
+  fill: var(--muted);
+  transition: fill 0.2s;
+}
+
+.dg-stage:hover .dg-icon,
+.dg-stage-active .dg-icon {
+  fill: var(--cyan);
+}
+
 .dg-cluster {
   fill: var(--cyan);
 }
@@ -528,11 +621,20 @@ main {
 
 .diagram-detail h3 {
   font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+}
+
+.diagram-detail h3 svg {
+  color: var(--cyan);
+  flex: none;
 }
 
 .diagram-detail p {
   margin: 0;
-  max-width: 60ch;
+  max-width: 52ch;
 }
 
 .diagram-detail ul {
@@ -543,6 +645,17 @@ main {
   white-space: nowrap;
 }
 
+.diagram-detail li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.diagram-detail li svg {
+  flex: none;
+  color: var(--text);
+}
+
 .diagram-detail li::before {
   content: '';
   display: inline-block;
@@ -551,7 +664,17 @@ main {
   background: var(--amber);
   margin-right: 10px;
   transform: rotate(45deg);
-  vertical-align: middle;
+  flex: none;
+}
+
+.diagram-list strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.diagram-list strong svg {
+  color: var(--cyan);
 }
 
 @media (max-width: 760px) {
@@ -617,6 +740,11 @@ main {
   color: var(--text);
   font-weight: 500;
   margin-bottom: 4px;
+}
+
+.job-role,
+.job-summary {
+  max-width: var(--measure);
 }
 
 .job-summary {
@@ -744,6 +872,7 @@ main {
   color: #c9d2e0;
   margin-bottom: 20px;
   font-size: 0.98rem;
+  max-width: var(--measure-card);
 }
 
 .tags {
@@ -753,11 +882,20 @@ main {
 }
 
 .tags li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-size: 0.82rem;
   color: var(--muted);
   border: 1px solid var(--line);
   padding: 4px 10px;
   border-radius: 3px;
+}
+
+.tags li svg {
+  color: var(--cyan);
+  opacity: 0.85;
+  flex: none;
 }
 
 @media (max-width: 720px) {
@@ -788,11 +926,25 @@ main {
 }
 
 .skill-group li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.9rem;
   padding: 6px 12px;
   border: 1px solid var(--line);
   border-radius: 3px;
   background: rgba(95, 227, 255, 0.04);
+  transition: border-color 0.2s;
+}
+
+.skill-group li svg {
+  color: var(--cyan);
+  opacity: 0.85;
+  flex: none;
+}
+
+.skill-group li:hover {
+  border-color: rgba(95, 227, 255, 0.4);
 }
 
 @media (max-width: 720px) {
@@ -838,6 +990,9 @@ main {
 
 .contact-links a {
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .contact-links a:hover {
@@ -846,6 +1001,7 @@ main {
 
 .contact-links span {
   color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
 .contact-plain {
@@ -874,6 +1030,14 @@ main {
 
 .section-wide .section-side h2 {
   max-width: 11ch;
+}
+
+.section-main {
+  min-width: 0;
+}
+
+.section-main > * {
+  max-width: 100%;
 }
 
 .tilt-glare {

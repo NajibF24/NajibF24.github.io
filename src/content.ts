@@ -16,6 +16,24 @@ export const person = {
   availability: 'Open to senior DevOps, platform and cloud-security roles in Jakarta or remote.',
 };
 
+// Tools shown as a row of brand marks under the hero. Names must exist in src/lib/brands.ts.
+export const stack = [
+  { icon: 'gitlab', label: 'GitLab' },
+  { icon: 'terraform', label: 'Terraform' },
+  { icon: 'argo', label: 'Argo CD' },
+  { icon: 'kubernetes', label: 'Kubernetes' },
+  { icon: 'helm', label: 'Helm' },
+  { icon: 'docker', label: 'Docker' },
+  { icon: 'harbor', label: 'Harbor' },
+  { icon: 'trivy', label: 'Trivy' },
+  { icon: 'sonarqube', label: 'SonarQube' },
+  { icon: 'zap', label: 'OWASP ZAP' },
+  { icon: 'openbao', label: 'OpenBao' },
+  { icon: 'elastic', label: 'Elastic' },
+  { icon: 'postgresql', label: 'PostgreSQL' },
+  { icon: 'python', label: 'Python' },
+];
+
 export const about = {
   paragraphs: [
     'Three years in, I am the sole DevSecOps and platform engineer at PT Garuda Yamato Steel, a steel manufacturer running about 45 internal applications across dev, staging, production and an AWS disaster-recovery cluster.',
@@ -39,30 +57,35 @@ export const platform = {
     {
       id: 'git',
       name: 'GitLab',
+      icon: 'gitlab',
       summary: 'Projects, protected branches and CI variables created by Terraform from one catalog file.',
       gates: ['Gitleaks secret scanning', 'Protected branches'],
     },
     {
       id: 'ci',
       name: 'CI pipeline',
+      icon: 'docker',
       summary: 'One template (gys-pipeline) used by 49 repositories. It fails only on what matters.',
       gates: ['Trivy filesystem scan', 'SonarQube quality gate', 'Build pinned by digest'],
     },
     {
       id: 'harbor',
       name: 'Harbor',
+      icon: 'harbor',
       summary: 'Scan-on-push, images pinned by digest, weekly base-image rebuilds with 10-minute auto-rollback.',
       gates: ['Trivy image scan', 'Critical CVE policy'],
     },
     {
       id: 'argocd',
       name: 'ArgoCD',
+      icon: 'argo',
       summary: 'ApplicationSets for every environment, zero spec drift, one shared Helm chart.',
       gates: ['OWASP ZAP DAST', 'Smoke-test gate', 'Production approval'],
     },
     {
       id: 'clusters',
       name: 'Kubernetes',
+      icon: 'kubernetes',
       summary: 'Dev, staging and production on RKE2, pilot-light DR on AWS EKS. Secrets arrive through External Secrets from OpenBao.',
       gates: ['OpenBao secrets', 'Probes, HPA, PDB', 'Encrypted etcd backups'],
     },

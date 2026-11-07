@@ -3,6 +3,9 @@ import { about, certifications, education, EMAIL, experience, GITHUB_URL, LINKED
 import { Fade, Wipe } from '../components/Reveal';
 import TiltCard from '../components/TiltCard';
 import PlatformDiagram from '../components/PlatformDiagram';
+import BrandIcon from '../components/BrandIcon';
+import Count from '../components/Count';
+import { brandFor } from '../lib/brands';
 
 function Section({ id, title, lede, children, wide = false }: { id: string; title: string; lede?: string; children: React.ReactNode; wide?: boolean }) {
   return (
@@ -38,7 +41,9 @@ export function About() {
           <dl className="facts">
             {about.facts.map((f) => (
               <div key={f.label}>
-                <dt>{f.value}</dt>
+                <dt>
+                  <Count value={f.value} />
+                </dt>
                 <dd>{f.label}</dd>
               </div>
             ))}
@@ -119,7 +124,9 @@ export function Projects() {
               <div className="project-top">
                 <span className="project-year">{p.year}</span>
                 <span className="project-metric">
-                  <b>{p.metric.value}</b>
+                  <b>
+                    <Count value={p.metric.value} />
+                  </b>
                   <small>{p.metric.label}</small>
                 </span>
               </div>
@@ -127,7 +134,10 @@ export function Projects() {
               <p>{p.summary}</p>
               <ul className="tags">
                 {p.tags.map((t) => (
-                  <li key={t}>{t}</li>
+                  <li key={t}>
+                    <BrandIcon name={brandFor(t)} size={13} />
+                    {t}
+                  </li>
                 ))}
               </ul>
             </TiltCard>
@@ -156,6 +166,7 @@ export function Skills() {
             <ul>
               {g.items.map((item) => (
                 <motion.li key={item} variants={{ hidden: { opacity: 0, y: 8, scale: 0.96 }, show: { opacity: 1, y: 0, scale: 1 } }} transition={{ duration: 0.4, ease: 'easeOut' }}>
+                  <BrandIcon name={brandFor(item)} size={14} />
                   {item}
                 </motion.li>
               ))}
@@ -187,6 +198,7 @@ export function Contact() {
             <ul className="contact-links">
               <li>
                 <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+                  <BrandIcon name="github" size={15} />
                   GitHub
                 </a>
                 <span>{GITHUB_URL.replace('https://', '')}</span>

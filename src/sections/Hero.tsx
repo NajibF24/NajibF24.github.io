@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { EMAIL, person } from '../content';
+import { EMAIL, person, stack } from '../content';
+import BrandIcon from '../components/BrandIcon';
 
 const lines = person.name.split(' ');
 
@@ -42,6 +43,14 @@ export default function Hero() {
             Email me
           </a>
         </motion.div>
+        <motion.ul className="stack" aria-label="Tools I work with daily" {...(reduce ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 1.1, duration: 0.8 } })}>
+          {stack.map((s) => (
+            <li key={s.icon} title={s.label}>
+              <BrandIcon name={s.icon} size={22} />
+              <span>{s.label}</span>
+            </li>
+          ))}
+        </motion.ul>
       </div>
       <div className="hero-scroll" aria-hidden="true">
         <span />
